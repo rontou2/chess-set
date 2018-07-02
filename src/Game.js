@@ -1,4 +1,4 @@
-export class Game {
+export default class Game {
   constructor () {
     this.board = [];
   }
@@ -95,6 +95,8 @@ class Piece {
         this.img = color ? 'black image file' : 'white image file';
         this.movement = 'x+1 || x-1 || y+1 || y-1 || (x+1 && y+1) || (x+1 && y-1) || (x-1 && y+1 || (x-1 && y-1)'
         break;
+	default:
+		break;
     }
   }
 }
