@@ -125,27 +125,27 @@ class Piece {
     // Images and movement are detrmined by nameand color of piece
     switch (name) {
       case 'pawn':
-        this.img = color ? {pawn_b} : {pawn_w};
+        this.img = color ? pawn_b : pawn_w;
         this.movement = 'y+1 || y+2';
         break;
       case 'rook':
-        this.img = color ? {rook_b} : {rook_w};
+        this.img = color ? rook_b : rook_w;
         this.movement = 'x+1* || x-1* || y+1* || y-1*';
         break;
       case 'knight':
-        this.img = color ? {knight_b} : {knight_w};
+        this.img = color ? knight_b : knight_w;
         this.movement = '(y+2 || y-2) && (x+3 || x-3)';
         break;
       case 'bishop':
-        this.img = color ? {bishop_b} : {bishop_w};
+        this.img = color ? bishop_b : bishop_w;
         this.movement = '(x+1 && y+1)* || (x+1 && y-1)* || (x-1 && y+1)* || (x-1 && y-1)*';
         break;
       case 'queen':
-        this.img = color ? {queen_b} : {queen_w};
+        this.img = color ? queen_b : queen_w;
         this.movement = 'x+1* || x-1* || y+1* || y-1* || (x+1 && y+1)* || (x+1 && y-1)* || (x-1 && y+1)* || (x-1 && y-1)*';
         break;
       case 'king':
-        this.img = color ? {king_b} : {king_w};
+        this.img = color ? king_b : king_w;
         this.movement = 'x+1 || x-1 || y+1 || y-1 || (x+1 && y+1) || (x+1 && y-1) || (x-1 && y+1 || (x-1 && y-1)'
         break;
       default:

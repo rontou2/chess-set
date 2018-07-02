@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import Board from './components/Board'
 import Game from './Game';
 
 class App extends Component {
@@ -11,13 +12,11 @@ class App extends Component {
 
     this.state.game.setBoard();
   }
-  
+
   render() {
     return (
       <div className="App">
-
-          To get started, edit <code>src/App.js</code> and save to reload.
-
+        <Board board={this.state.game.board} />
       </div>
     );
   }
