@@ -1,0 +1,24 @@
+.App {
+    margin: 0 auto;
+    width: 1024px;
+    height: 800px;
+}
+
+.board-container {
+    display:flex;
+    width: 100%;
+    height: 800px;
+    flex-flow: row wrap;
+}
+
+.board-container .tile {
+    background: teal;
+    width: 12%;
+    border: 2px solid black;
+}
+.board-container .black {
+    background: gray;
+}
+.board-container .white {
+    background: lightsalmon;
+}
