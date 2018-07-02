@@ -14,22 +14,22 @@ const Board = props => {
                         return (<div
                             className={`tile + ${tile.color === 'black' ? 'black' : 'white'} `}
                             key={tile.index}
-                            
+
                         >
-                        <img src={tile.piece.img} alt=""/>
+                            <img src={tile.piece.img} alt="" />
                         </div>)
 
-                            }
+                    }
                     return (<div
-                                className={`tile + ${tile.color === 'black' ? 'black' : 'white'} `}
-                                key={tile.index}
-                            >
-                            </div>)
-                            })
-                        })}
+                        className={`tile + ${tile.color === 'black' ? 'black' : 'white'} `}
+                        key={tile.index}
+                    >
+                    </div>)
+                })
+            })}
         </div>
     );
 
-            }
+}
 
 export default Board;
