@@ -12,7 +12,7 @@ import rook_b from './images/rook_b.png'
 import rook_w from './images/rook_w.png'
 
 export default class Game {
-  constructor() {
+  constructor () {
     this.board = [];
   }
 
@@ -28,34 +28,33 @@ export default class Game {
     let pieceColor = true; // black
 
     // Loop through each row indexing from 8 to 1
-    for (let x = 8; x > 0; x--) {
+    for(let x = 8; x > 0; x--) {
       const row = []; // Row base to be added to
       // Loop through each item in row indexing from 'a' to 'h'
-      for (let y = 'a'; y < 'i'; y = nextChar(y)) {
+      for(let y = 'a'; y < 'i'; y = nextChar(y)) {
         // creates indexing from '8a' to '1h'
-        const index = y + x;
+        const index = y + x; 
         let piece = null;
 
         // First and last rows for main peices
-        if (x === 8 || x === 1) {
+        if (x === 8 || x === 1) { 
           piece = new Piece(pieceColor, edgePieces[(y).charCodeAt() - 97], index);
         }
         // Second and second-to-last rows for pawns
-        if (x === 7 || x === 2) {
+        if (x === 7 || x === 2) { 
           piece = new Piece(pieceColor, 'pawn');
         }
-        // Swap peice color to white for opposing side
-
 
         // Create tile with piece object and push to row
         row.push(new Tile(tileColor, piece, index));
         // Alternate tile colors
         tileColor = !tileColor;
       }
-      if (x === 6) {
+      // Swap peice color to white for opposing side
+      if (x === 6) { 
         pieceColor = !pieceColor;
       }
-
+      
       // Extra swap at end of row to make sure that tile colors are staggered
       tileColor = !tileColor;
       // Pushes row to board before continuing the loop
@@ -111,7 +110,7 @@ export default class Game {
 }
 
 class Tile {
-  constructor(color, piece, index) {
+  constructor (color, piece, index) {
     this.color = color ? 'black' : 'white';
     this.piece = piece;
     this.index = index;
@@ -119,10 +118,10 @@ class Tile {
 }
 
 class Piece {
-  constructor(color, name) {
+  constructor (color, name) {
     this.color = color ? 'black' : 'white';
     this.name = name;
-
+    
     // Images and movement are detrmined by nameand color of piece
     switch (name) {
       case 'pawn':
@@ -154,4 +153,3 @@ class Piece {
     }
   }
 }
-
