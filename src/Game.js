@@ -1,3 +1,16 @@
+import bishop_b from './images/bishop_b.png'
+import bishop_w from './images/bishop_w.png'
+import king_b from './images/king_b.png'
+import king_w from './images/king_w.png'
+import knight_b from './images/knight_b.png'
+import knight_w from './images/knight_w.png'
+import pawn_b from './images/pawn_b.png'
+import pawn_w from './images/pawn_w.png'
+import queen_b from './images/queen_b.png'
+import queen_w from './images/queen_w.png'
+import rook_b from './images/rook_b.png'
+import rook_w from './images/rook_w.png'
+
 export default class Game {
   constructor () {
     this.board = [];
@@ -72,27 +85,27 @@ class Piece {
     // Images and movement are detrmined by nameand color of piece
     switch (name) {
       case 'pawn':
-        this.img = color ? 'black image file' : 'white image file';
+        this.img = color ? {pawn_b} : {pawn_w};
         this.movement = 'y+1 || y+2';
         break;
       case 'rook':
-        this.img = color ? 'black image file' : 'white image file';
+        this.img = color ? {rook_b} : {rook_w};
         this.movement = 'x+1* || x-1* || y+1* || y-1*';
         break;
       case 'knight':
-        this.img = color ? 'black image file' : 'white image file';
+        this.img = color ? {knight_b} : {knight_w};
         this.movement = '(y+2 || y-2) && (x+3 || x-3)';
         break;
       case 'bishop':
-        this.img = color ? 'black image file' : 'white image file';
+        this.img = color ? {bishop_b} : {bishop_w};
         this.movement = '(x+1 && y+1)* || (x+1 && y-1)* || (x-1 && y+1)* || (x-1 && y-1)*';
         break;
       case 'queen':
-        this.img = color ? 'black image file' : 'white image file';
+        this.img = color ? {queen_b} : {queen_w};
         this.movement = 'x+1* || x-1* || y+1* || y-1* || (x+1 && y+1)* || (x+1 && y-1)* || (x-1 && y+1)* || (x-1 && y-1)*';
         break;
       case 'king':
-        this.img = color ? 'black image file' : 'white image file';
+        this.img = color ? {king_b} : {king_w};
         this.movement = 'x+1 || x-1 || y+1 || y-1 || (x+1 && y+1) || (x+1 && y-1) || (x-1 && y+1 || (x-1 && y-1)'
         break;
 	default:
