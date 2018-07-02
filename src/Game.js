@@ -44,17 +44,17 @@ export default class Game {
         if (x === 7 || x === 2) { 
           piece = new Piece(pieceColor, 'pawn');
         }
-        // Swap peice color to white for opposing side
-        if (x === 6) { 
-          pieceColor = 1;
-        }
 
         // Create tile with piece object and push to row
         row.push(new Tile(tileColor, piece, index));
         // Alternate tile colors
         tileColor = !tileColor;
       }
-
+      // Swap peice color to white for opposing side
+      if (x === 6) { 
+        pieceColor = !pieceColor;
+      }
+      
       // Extra swap at end of row to make sure that tile colors are staggered
       tileColor = !tileColor;
       // Pushes row to board before continuing the loop
