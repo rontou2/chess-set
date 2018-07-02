@@ -1,4 +1,4 @@
-export default class Game {
+export class Game {
   constructor () {
     this.board = [];
   }
@@ -98,13 +98,4 @@ class Piece {
     }
   }
 }
-
-// // Create new game and populate board
-// const game = new Game();
-// game.setBoard();
-
-// // Grab peice info by board position
-// console.log(game.getTilePiece('8b'));
-// console.log(game.getTilePiece('5e'));
-// console.log(game.getTilePiece('2h'));
 
