@@ -5,16 +5,19 @@
 }
 
 .board-container {
+	margin-top:10px;
     display:flex;
     width: 100%;
+	max-width:800px;
     height: 800px;
     flex-flow: row wrap;
+	border:1px solid black;
 }
 
 .board-container .tile {
     background: teal;
-    width: 12%;
-    height: 100px;
+    width: 12.5%;
+    height: 12.5%;
     display:flex;
     align-items: center;
     justify-content: center;
