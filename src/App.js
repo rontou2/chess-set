@@ -16,7 +16,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Board board={this.state.game.board} />
+        <Board game={this.state.game}/>
       </div>
     );
   }
