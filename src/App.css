@@ -23,9 +23,20 @@
     justify-content: center;
     border: 2px solid black;
 }
+
+.board-container .tile:hover {
+  background: teal;
+}
+
 .board-container .black {
     background: gray;
 }
+
 .board-container .white {
     background: lightsalmon;
+}
+
+.footer{
+  display: flex;
+  justify-content: space-around;
 }

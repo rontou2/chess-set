@@ -11,15 +11,17 @@ import queen_w from './images/queen_w.png'
 import rook_b from './images/rook_b.png'
 import rook_w from './images/rook_w.png'
 
+// Helper function for getting next letter in sequence
+const nextChar = c => String.fromCharCode(c.charCodeAt() + 1);
+const prevChar = c => String.fromCharCode(c.charCodeAt() - 1);
+
 export default class Game {
   constructor () {
     this.board = [];
+    this.turn = 'white';
   }
 
   setBoard() {
-    // Helper function for getting next letter in sequence
-    const nextChar = c => String.fromCharCode(c.charCodeAt(0) + 1);
-
     // Helper array for order of main peices
     const edgePieces = ['rook', 'knight', 'bishop', 'queen', 'king', 'bishop', 'knight', 'rook'];
 
@@ -62,50 +64,149 @@ export default class Game {
     }
   }
 
-  // Returns piece data from tile index
-  getPieceAt(index) {
+  setValid(idx, locArr) {
+    const locIdxArr = [];
+
+    locArr.forEach(loc => {
+      let x_neg = false;
+      let y_neg = false;
+      let idxArr = idx.split('');
+
+      if (loc[0] < 0) { x_neg = true; loc[0] = Math.abs(loc[0]) }
+      if (loc[1] < 0) { y_neg = true; loc[1] = Math.abs(loc[1]) }
+      
+      for (let i = 0; i < loc[0]; i++) {
+        if (x_neg) idxArr[0] = prevChar(idxArr[0]);
+        else idxArr[0] = nextChar(idxArr[0]);
+      }
+      for (let i = 0; i < loc[1]; i++) {
+        if (y_neg) idxArr[1] = String(Number(idxArr[1]) - 1);
+        else idxArr[1] = String(Number(idxArr[1]) + 1);
+      }
+
+      locIdxArr.push(idxArr.join(''));
+    });
+
+    return locIdxArr;
+  }
+
+  markValid(p_index) {
+    // find piece > check valid moves > set tiles to valid
     for (let line of this.board) {
       for (let tile of line) {
-        if (tile.index === index) return tile.piece;
+        if (tile.index === p_index) {
+          const piece = tile.piece;
+          
+          switch (piece.name) {
+            case 'pawn':
+              if (piece.moves) {
+                piece.movement = piece.color === 'black' ?
+                this.setValid(p_index, [[0, -1]]) :
+                this.setValid(p_index, [[0, 1]]);
+              } else {
+                piece.movement = piece.color === 'black' ?
+                this.setValid(p_index, [[0, -1], [0, -2]]) :
+                this.setValid(p_index, [[0, 1], [0, 2]]);
+              }
+              piece.moves++;
+              break;
+            case 'rook':
+              piece.movement = this.setValid(p_index, [[0, 1], [0, 2], [0, 3],
+              [0, 4], [0, 5], [0, 6], [0, 7], [0, -1], [0, -2], [0, -3],
+              [0, -4], [0, -5], [0, -6], [0, -7], [1, 0], [2, 0], [3, 0],
+              [4, 0], [5, 0], [6, 0], [7, 0], [-1, 0], [-2, 0], [-3, 0],
+              [-4, 0], [-5, 0], [-6, 0], [-7, 0]]);
+              break;
+            case 'knight':
+              piece.movement = piece.color === 'black' ?
+              this.setValid(p_index, [[1, -2], [-1, -2], [-2, 1], [-2, -1]]) :
+              this.setValid(p_index, [[1, 2], [-1, 2], [2, 1], [2, -1],
+                [-2, 1], [-2, -1], [1, -2], [-1, -2]]);
+              break;
+            case 'bishop':
+              piece.movement = this.setValid(p_index, [[1, 1], [2, 2], [3, 3],
+                [4, 4], [5, 5], [6, 6], [7, 7], [-1, -1], [-2, -2], [-3, -3],
+                [-4, -4], [-5, -5], [-6, -6], [-7, -7], [-1, 1], [-2, 2], [-3, 3],
+                [-4, 4], [-5, 5], [-6, 6], [-7, 7], [1, -1], [2, -2], [3, -3],
+                [4, -4], [5, -5], [6, -6], [7, -7]])
+              break;
+            case 'queen':
+              piece.movement = this.setValid(p_index, [[0, 1], [1, 1], [1, 0],
+                [0, -1], [-1, -1], [-1, 0], [1, -1], [-1, 1], [0, 2], [2, 2],
+                [2, 0], [0, -2], [-2, -2], [-2, 0], [2, -2], [-2, 2], [0, 3],
+                [3, 3], [3, 0], [0, -3], [-3, -3], [-3, 0], [3, -3], [-3, 3],
+                [0, 4], [4, 4], [4, 0], [0, -4], [-4, -4], [-4, 0], [4, -4],
+                [-4, 4], [0, 5], [5, 5], [5, 0], [0, -5], [-5, -5], [-5, 0],
+                [5, -5], [-5, 5], [0, 6], [6, 6], [6, 0], [0, -6], [-6, -6], 
+                [-6, 0]], [6, -6], [-6, 6], [0, 7], [7, 7], [7, 0],
+                [0, -7], [-7, -7], [-7, 0], [7, -7], [-7, 7]);
+              break;
+            case 'king':
+              piece.movement = this.setValid(p_index, [[0, 1], [1, 1], [1, 0],
+                [0, -1], [-1, -1], [-1, 0], [1, -1], [-1, 1]]);
+              break;
+            default:
+              break;
+          }
+
+          for (let line of this.board) {
+            for (let tile of line) {
+              if (piece.movement.includes(tile.index)) {
+                tile.valid = true;
+              }
+            }
+          }
+        }
       }
     }
   }
 
-  // Removes piece data from tile index
-  removePieceAt(index) {
-    for (let line of this.board) {
-      for (let tile of line) {
-        if (tile.index === index) tile.piece = null;
-      }
-    }
-  }
-
-  // Moved peice from peice index to target index
+  // Moved peice from piece index to target index
   movePiece(p_index, t_index) {
     // Pull variables out of loop to expand scope
     let piece = null;
     let o_tile = null;
-    let placed = false;
+    let t_tile = null;
 
     // Look for old and new tiles by index
     for (let line of this.board) {
       for (let tile of line) {
         if (tile.index === p_index) {
-          // Grap peice and set tile to null
+          // Grap piece and old tile
           piece = tile.piece;
-          tile.piece = null;
           o_tile = tile;
         }
-        if (tile.index === t_index && tile.piece === null) {
-          // Place tile and set flag
-          tile.piece = piece;
-          placed = true;
+        if (tile.index === t_index) {
+          // Grab target tile
+          t_tile = tile;
         }
       }
     }
 
-    // If not able to place piece then reset
-    if (!placed) o_tile.piece = piece;
+    // Only move piece if old tile has one to move and move id valid
+    // Make sure you can't take out your own pieces
+    if (o_tile.piece && t_tile.valid) {
+      if (o_tile.piece.color === this.turn) {
+        if (t_tile.piece) {
+          if (o_tile.piece.color !== t_tile.piece.color) {
+            o_tile.piece = null;
+            t_tile.piece = piece;
+            this.turn = this.turn === 'black' ? 'white' : 'black'; 
+          }
+        } else {  
+          o_tile.piece = null;
+          t_tile.piece = piece;
+          this.turn = this.turn === 'black' ? 'white' : 'black'; 
+        }
+      }
+    }
+
+    // Reset all valid tags
+    for (let line of this.board) {
+      for (let tile of line) {
+        tile.valid = false;
+      }
+    }
   }
 }
 
@@ -114,6 +215,7 @@ class Tile {
     this.color = color ? 'black' : 'white';
     this.piece = piece;
     this.index = index;
+    this.valid = false;
   }
 }
 
@@ -121,32 +223,34 @@ class Piece {
   constructor (color, name) {
     this.color = color ? 'black' : 'white';
     this.name = name;
+    this.movement = [];
     
     // Images and movement are detrmined by nameand color of piece
     switch (name) {
       case 'pawn':
         this.img = color ? pawn_b : pawn_w;
-        this.movement = 'y+1 || y+2';
+        this.moves = 0;
+        // this.movement = 'y+1 || y+2';
         break;
       case 'rook':
         this.img = color ? rook_b : rook_w;
-        this.movement = 'x+1* || x-1* || y+1* || y-1*';
+        // this.movement = 'x+1* || x-1* || y+1* || y-1*';
         break;
       case 'knight':
         this.img = color ? knight_b : knight_w;
-        this.movement = '(y+2 || y-2) && (x+3 || x-3)';
+        // this.movement = '(y+2 || y-2) && (x+3 || x-3)';
         break;
       case 'bishop':
         this.img = color ? bishop_b : bishop_w;
-        this.movement = '(x+1 && y+1)* || (x+1 && y-1)* || (x-1 && y+1)* || (x-1 && y-1)*';
+        // this.movement = '(x+1 && y+1)* || (x+1 && y-1)* || (x-1 && y+1)* || (x-1 && y-1)*';
         break;
       case 'queen':
         this.img = color ? queen_b : queen_w;
-        this.movement = 'x+1* || x-1* || y+1* || y-1* || (x+1 && y+1)* || (x+1 && y-1)* || (x-1 && y+1)* || (x-1 && y-1)*';
+        // this.movement = 'x+1* || x-1* || y+1* || y-1* || (x+1 && y+1)* || (x+1 && y-1)* || (x-1 && y+1)* || (x-1 && y-1)*';
         break;
       case 'king':
         this.img = color ? king_b : king_w;
-        this.movement = 'x+1 || x-1 || y+1 || y-1 || (x+1 && y+1) || (x+1 && y-1) || (x-1 && y+1 || (x-1 && y-1)'
+        // this.movement = 'x+1 || x-1 || y+1 || y-1 || (x+1 && y+1) || (x+1 && y-1) || (x-1 && y+1 || (x-1 && y-1)'
         break;
       default:
         break;
