@@ -7,7 +7,7 @@ class Board extends Component {
 
     this.state = {
       p_index: null,
-      piece_select: false
+      piece_selected: false,
     };
   }
   
@@ -15,12 +15,12 @@ class Board extends Component {
     // Selects tile if image is clicked
     if (!e.target.classList.value) e.target = e.target.parentNode;
     // Use if/else to ensure that both piece index and target index are passed to movePice()
-    if (this.state.piece_select) {
+    if (this.state.piece_selected) {
       this.props.game.movePiece(this.state.p_index, e.target.id);
-      this.setState({ p_index: null, piece_select: false });
+      this.setState({ p_index: null, piece_selected: false });
     } else if (e.target.children.length) {
       this.props.game.markValid(e.target.id);
-      this.setState({ p_index: e.target.id, piece_select: true });
+      this.setState({ p_index: e.target.id, piece_selected: true });
     }
   }
 
@@ -44,7 +44,10 @@ class Board extends Component {
           })
         })}
       </div>
-      <h4 className="turn-color">Turn: {this.props.game.turn}</h4>
+      <div className="footer">
+        <h4>Turn: {this.props.game.turn}</h4>
+        <h4>Piece Selected: {String(this.state.piece_selected)}</h4>
+      </div>
       </div>
     );
   }

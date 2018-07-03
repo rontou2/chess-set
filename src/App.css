@@ -36,15 +36,7 @@
     background: lightsalmon;
 }
 
-.turn-color {
+.footer{
   display: flex;
-  justify-content: center;
-}
-
-.board-container .focus-green {
-  background: green;
-}
-
-.valid-tile {
-  border: green;
+  justify-content: space-around;
 }
