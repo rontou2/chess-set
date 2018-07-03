@@ -24,6 +24,10 @@
     border: 2px solid black;
 }
 
+.board-container .tile:hover {
+  background: teal;
+}
+
 .board-container .black {
     background: gray;
 }
@@ -35,4 +39,12 @@
 .turn-color {
   display: flex;
   justify-content: center;
+}
+
+.board-container .focus-green {
+  background: green;
+}
+
+.valid-tile {
+  border: green;
 }
