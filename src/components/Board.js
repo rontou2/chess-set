@@ -26,6 +26,7 @@ class Board extends Component {
 
   render() {
     return (
+      <div>
       <div className="board-container">
         {this.props.game.board.map(row => {
           return row.map(tile => {
@@ -42,6 +43,8 @@ class Board extends Component {
             );
           })
         })}
+      </div>
+      <h4 className="turn-color">Turn: {this.props.game.turn}</h4>
       </div>
     );
   }

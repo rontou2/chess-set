@@ -23,9 +23,16 @@
     justify-content: center;
     border: 2px solid black;
 }
+
 .board-container .black {
     background: gray;
 }
+
 .board-container .white {
     background: lightsalmon;
+}
+
+.turn-color {
+  display: flex;
+  justify-content: center;
 }

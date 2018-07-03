@@ -18,6 +18,7 @@ const prevChar = c => String.fromCharCode(c.charCodeAt() - 1);
 export default class Game {
   constructor () {
     this.board = [];
+    this.turn = 'white';
   }
 
   setBoard() {
@@ -183,16 +184,20 @@ export default class Game {
     }
 
     // Only move piece if old tile has one to move and move id valid
-    // // Make sure you can't take out your own pieces
-    if (t_tile.piece) {
-      if (o_tile.piece.color !== t_tile.piece.color) {
-        o_tile.piece = null;
-        t_tile.piece = piece;
-      }
-    } else {
-      if (o_tile.piece && t_tile.valid) {
-        o_tile.piece = null;
-        t_tile.piece = piece;
+    // Make sure you can't take out your own pieces
+    if (o_tile.piece && t_tile.valid) {
+      if (o_tile.piece.color === this.turn) {
+        if (t_tile.piece) {
+          if (o_tile.piece.color !== t_tile.piece.color) {
+            o_tile.piece = null;
+            t_tile.piece = piece;
+            this.turn = this.turn === 'black' ? 'white' : 'black'; 
+          }
+        } else {  
+          o_tile.piece = null;
+          t_tile.piece = piece;
+          this.turn = this.turn === 'black' ? 'white' : 'black'; 
+        }
       }
     }
 
